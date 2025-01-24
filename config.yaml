@@ -1,0 +1,123 @@
+device:
+  host: "10.10.10.92"  # Replace with actual IP
+  username: "cvpadmin"  # Replace with actual username
+  password: "Bhara_8nath_ITCE"  # Replace with actual password
+
+interfaces:
+  - name: "Ethernet3"
+    description: "Spine1"
+    no_switchport: true
+    ip_address: "10.0.5.1/31"
+    mtu: 9214
+
+  - name: "Ethernet4"
+    description: "Spine2"
+    no_switchport: true
+    ip_address: "10.0.6.1/31"
+    mtu: 9214
+
+  - name: "Ethernet5"
+    description: "Spine2"
+    no_switchport: true
+    ip_address: "10.0.7.1/31"
+    mtu: 9214
+
+  - name: "Ethernet6"
+    description: "Spine2"
+    no_switchport: true
+    ip_address: "10.0.8.1/31"
+    mtu: 9214
+
+  - name: "vlan4091"
+    ip_address: "10.0.9.4/31"
+    mtu: 9214
+
+  - name: "Loopback0"
+    ip_address: "10.0.250.15/32"
+
+  - name: "Loopback1"
+    ip_address: "10.0.255.15/32"
+
+  - name: "vlan10"
+    vrf: "gold"
+    ip_address: "10.90.90.2/29"
+
+  - name: "Ethernet24"
+    switchport: true
+    access_vlan: 40
+
+vlans:
+  - id: 34
+    name: "vlan34"
+    rd: "65003:100040"
+    route_target: "34:100034"
+
+  - id: 40
+    name: "test-l2-vxlan"
+    rd: "65003:100040"
+    route_target: "40:100040"
+
+  - id: 78
+    name: "vlan78"
+    rd: "65003:100040"
+    route_target: "78:100078"
+
+vrfs:
+  - name: "gold"
+    rd: "10.0.250.15:1"
+    route_target: "1:100001"
+    redistribute: "connected"
+
+bgp:
+  asn: 65003
+  router_id: "10.0.250.15"
+  distance_bgp: "20 200 200"
+  networks:
+    - "10.0.250.15/32"
+    - "10.0.255.15/32"
+  ecmp_paths: 4
+  peer_groups:
+    - name: "underlay"
+      remote_as: 65000
+      send_community: true
+      maximum_routes: 12000
+      neighbors:
+        - "10.0.5.0"
+        - "10.0.6.0"
+        - "10.0.7.0"
+        - "10.0.8.0"
+
+    - name: "underlay_ibgp"
+      remote_as: 65003
+      send_community: true
+      next_hop_self: true
+      maximum_routes: 12000
+      neighbors:
+        - "10.0.9.5"
+
+    - name: "evpn"
+      remote_as: 65000
+      send_community: "extended"
+      update_source: "Loopback0"
+      ebgp_multihop: 3
+      maximum_routes: 12000
+      neighbors:
+        - "10.0.250.1"
+        - "10.0.250.2"
+        - "10.0.250.3"
+        - "10.0.250.4"
+
+vxlan:
+  source_interface: "Loopback1"
+  udp_port: 4789
+  learn_restrict: "any"
+  vlan_to_vni:
+    - vlan: 40
+      vni: 100040
+    - vlan: 34
+      vni: 100034
+    - vlan: 78
+      vni: 100078
+  vrf_to_vni:
+    - vrf: "gold"
+      vni: 100001

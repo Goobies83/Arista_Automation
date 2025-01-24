@@ -1,0 +1,41 @@
+hosts:
+  - name: BLS-001
+    ip: 10.10.10.92
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: BLS-002
+    ip: 10.10.10.93
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Spine-001
+    ip: 10.10.10.94
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Spine-002
+    ip: 10.10.10.95
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Spine-003
+    ip: 10.10.10.96
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Spine-004
+    ip: 10.10.10.97
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Leaf-001
+    ip: 10.10.10.80
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Leaf-002
+    ip: 10.10.10.81
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Leaf-003
+    ip: 10.10.10.82
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
+  - name: Leaf-004
+    ip: 10.10.10.83
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
