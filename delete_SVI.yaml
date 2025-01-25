@@ -1,0 +1,5 @@
+hosts:
+  BLS-001:
+    ip: 10.10.10.92
+    username: cvpadmin
+    password: Bhara_8nath_ITCE
