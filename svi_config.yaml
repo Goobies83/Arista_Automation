@@ -1,0 +1,8 @@
+BLS-001:
+  host: 10.10.10.92
+  username: cvpadmin
+  password: Bhara_8nath_ITCE
+  svi:
+    100: 192.168.100.1/24
+    101: 192.168.101.1/24
+    102: 192.168.102.1/24
