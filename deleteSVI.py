@@ -1,5 +1,6 @@
 import paramiko
 import yaml
+import time
 
 def load_hosts(filename):
     with open(filename, 'r') as file:
@@ -14,11 +15,10 @@ def delete_svi(host, username, password, vlan_id):
         shell = client.invoke_shell()
         shell.send("enable\n")
         shell.send("Goobies83\n")  # Enter enable password
+        time.sleep(1)
         shell.send("show ip interface brief | include Vlan{}\n".format(vlan_id))
-        shell.recv(5000)  # Read initial output
-        
-        shell.send("\n")  # Ensure command execution
-        output = shell.recv(5000).decode('utf-8')
+        time.sleep(2)
+        output = shell.recv(10000).decode('utf-8')
         
         if f"Vlan{vlan_id}" not in output:
             print(f"SVI VLAN {vlan_id} is not present on {host}. Skipping...")
@@ -27,6 +27,7 @@ def delete_svi(host, username, password, vlan_id):
             shell.send(f"no interface vlan {vlan_id}\n")
             shell.send("end\n")
             shell.send("write memory\n")
+            time.sleep(2)
             print(f"SVI VLAN {vlan_id} deleted successfully on {host}.")
         
         client.close()
